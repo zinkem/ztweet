@@ -3,7 +3,7 @@ ztweet
 
 zinkem's command line twitter client
 
-To get started you'll need oauth
+To get started you'll need oauth for node.js
 
     npm install oauth
 
@@ -41,8 +41,8 @@ post a status update:
 
     node ztweet.js -m [message]
     
-    node ztweet.js -m single_word
-    node ztweet.js -m "This is a multi word status update"
+    node ztweet.js -m a status update without quotes
+    node ztweet.js -m "This is a status update!"
   
 searching:
 
