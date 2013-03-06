@@ -50,6 +50,11 @@ searching:
     
     node ztweet.js -s queen
     node ztweet.js -s "spinal tap"
+
+commands can be strung together
+    
+    //note, the order you input the commands may not be the order they execute
+    node ztweet.js -s "mild salsa" -m "looking for a spicy salsa recommendation!"
     
 print help message:
  
