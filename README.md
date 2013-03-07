@@ -21,37 +21,41 @@ Usage:
 
     node ztweet.js [flag [params]...]...
   
-getting tweets from a user:
+Flags and their operations:
 
-    node ztweet.js -u [username] [num tweets to show]
+-u : get most recent tweets from a user with screen_name
+
+    node ztweet.js -u [screen_name] [num tweets to show]
     
     node ztweet.js -u zinkemdotcom 10
 
-getting your own tweets:
+-c : get your most recent tweets 
 
     node ztweet.js -c [num tweets to show]
     
     node ztweet.js -c 10
     
-getting tweets from those you follow:
+-h : view your home timeline (tweets of those you follow)
 
     node ztweet.js -h
     
-post a status update:
+-m : post a status update ('tweet')
 
     node ztweet.js -m [message]
     
     node ztweet.js -m a status update without quotes
-    node ztweet.js -m "This is a status update!"
+    
+    //some characters cannot be used without using quotes
+    node ztweet.js -m "Tweeting with style! ;)"
   
-searching:
+-s : search
 
     node ztweet.js -s [search terms]
     
     node ztweet.js -s queen
     node ztweet.js -s "spinal tap"
 
-commands can be strung together
+multiple operations can be invoked from a single command
     
     //note, the order you input the commands may not be the order they execute
     node ztweet.js -s "mild salsa" -m "looking for a spicy salsa recommendation!"
