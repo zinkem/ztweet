@@ -194,9 +194,11 @@ var parseOps = function(argv, operations){
     return params;
   };
 
+  //default operation is to fetch home feed
   if(argv.length <= 2){
-    showHelp(operations);
+      operations['-h'].op(getOpParams(argv));
   }
+
   while(argv.length > 0){
     var o = argv.shift();
     if(operations[o] !== undefined){
