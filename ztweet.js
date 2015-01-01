@@ -173,6 +173,30 @@ var postTweet = function(params){
 
 };
 
+//-d SCREEN_NAME STRING
+var sendDirectMessage = function(params){
+  var recipient = params.shift();
+  var message = params.join(' ');
+  var body = querystring.stringify(
+                    {"text": message,
+                    "screen_name": recipient
+                     });
+
+  var url = packURL("https//api.twitter.com/1.1/direct_messages/new.json",
+                    {"screen_name": recipient,
+                     "text": message });
+
+  console.log(body);
+
+  //var url = "https//api.twitter.com/1.1/direct_messages/new.json";
+
+  oa.post(url,access_token, access_token_secret, body, null,
+    errorCheckingCallback(function(data){
+      console.log("sent "+message+" to "+recipient);
+      console.log(data)
+    }));
+};
+
 //command line interface
 var parseOps = function(argv, operations){
 
@@ -236,6 +260,11 @@ var parseOps = function(argv, operations){
       "params" : "SCREEN_NAME NUM",
       "desc"   : "displays NUM recent tweets from user using SCREEN_NAME"
     },
+    "-d": {
+      "op"     : sendDirectMessage,
+      "params" : "SCREEN_NAME STRING",
+      "desc"   : "sends STRING as a direct message to SCREEN_NAME"
+    }
   };
 
   parseOps(process.argv, operations);
