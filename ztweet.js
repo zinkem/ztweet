@@ -3,6 +3,7 @@ var util = require('util');
 var sys = require('sys');
 var querystring = require('querystring');
 var config = require('./myconfig').config;
+var fs = require('fs');
 
 //oauth credentials should be stored in myconfig.js________________
 var access_token = config.access_token;
@@ -166,9 +167,11 @@ var postTweet = function(params){
   console.log(url);
 
   oa.post(url,access_token, access_token_secret, null, null, 
-    errorCheckingCallback(function(data){
-          console.log("Status sucessfully set to "+message);
-          console.log(data);
+    errorCheckingCallback(function(err, data){
+      console.log("Status sucessfully set to "+message);
+      
+      console.log(err);
+      console.log(data);
     }));
 
 };
@@ -197,6 +200,24 @@ var sendDirectMessage = function(params){
     }));
 };
 
+//-f FILENAME
+var tweetLineFromFile = function(params){
+  fname = params[0];
+  console.log("tweeting a line from "+ fname + "!" );
+  fs.readFile(fname, { encoding: 'utf8' }, 
+              errorCheckingCallback(function(err, data){
+                var quotes = data.split("\n");
+                var choice = Math.random() * quotes.length;
+
+                choice = Math.floor(choice);
+
+                //splitting the string on the spaces is a hack
+                //to use postTweet
+                postTweet(quotes[choice].split(" "));
+
+              }));
+    
+};
 
 //--help
 var showHelp = function(operations){
@@ -270,6 +291,11 @@ var parseOps = function(argv, operations){
       "op"     : sendDirectMessage,
       "params" : "SCREEN_NAME STRING",
       "desc"   : "sends STRING as a direct message to SCREEN_NAME"
+    },
+    "-f": {
+      "op"     : tweetLineFromFile,
+      "params" : "FILENAME",
+      "desc"   : "tweets a random line from the file at FILENAME"
     },
     "--help": {
       "op"     : showHelp,
