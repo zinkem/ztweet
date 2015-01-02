@@ -197,37 +197,43 @@ var sendDirectMessage = function(params){
     }));
 };
 
+
+//--help
+var showHelp = function(operations){
+  console.log("ztweet [<flag> [param]...]...");
+  console.log("invoking with no flag produces this message");
+  console.log("flags:");
+  for(var o in operations){
+    console.log("\t"+o+" "+operations[o].params);
+    console.log("\t\t"+operations[o].desc);
+  }
+};
+
 //command line interface
 var parseOps = function(argv, operations){
 
-  var showHelp = function(operations){
-    console.log("ztweet [<flag> [param]...]...");
-    console.log("invoking with no flag produces this message");
-    console.log("flags:");
-    for(var o in operations){
-      console.log("\t"+o+" "+operations[o].params);
-      console.log("\t\t"+operations[o].desc);
-    }
-  };
-
   var getOpParams = function(argv){
     var params = [];
-    while(argv[0] && operations[argv[0]] === undefined ){
+    while(argv[0] && operations[argv[0]] === undefined){
       params.push(argv.shift());
     }
     return params;
   };
 
   //default operation is to fetch home feed
-  if(argv.length <= 2){
-      operations['-h'].op(getOpParams(argv));
-  }
+  if(argv.length <= 2 ||
+     argv[2] == '--help'){
+      //operations['-h'].op(getOpParams(argv));
+      showHelp(operations);
+  } else {
 
-  while(argv.length > 0){
-    var o = argv.shift();
-    if(operations[o] !== undefined){
-      operations[o].op(getOpParams(argv));
+    while(argv.length > 0){
+      var o = argv.shift();
+      if(operations[o] !== undefined){
+        operations[o].op(getOpParams(argv));
+      }
     }
+
   }
 };
 
@@ -264,6 +270,11 @@ var parseOps = function(argv, operations){
       "op"     : sendDirectMessage,
       "params" : "SCREEN_NAME STRING",
       "desc"   : "sends STRING as a direct message to SCREEN_NAME"
+    },
+    "--help": {
+      "op"     : showHelp,
+      "params" : "",
+      "desc"   : "displays this help message"
     }
   };
 
